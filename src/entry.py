@@ -20,12 +20,20 @@ from src.utils.parsing import get_concatenated_response, open_config_with_defaul
 # Load processors
 STATS = Stats()
 
+OMR_CONFIG = {
+    "input_paths": ["inputs"],
+    "output_dir": "outputs",
+    "debug": True,
+    "autoAlign": False,
+    "setLayout": False,
+}
 
-def entry_point(input_dir, args):
+
+def entry_point(input_dir):
     if not os.path.exists(input_dir):
         raise Exception(f"Given input directory does not exist: '{input_dir}'")
     curr_dir = input_dir
-    return process_dir(input_dir, curr_dir, args)
+    return process_dir(input_dir, curr_dir)
 
 
 def print_config_summary(
@@ -35,7 +43,6 @@ def print_config_summary(
     tuning_config,
     local_config_path,
     evaluation_config,
-    args,
 ):
     logger.info("")
     table = Table(title="Current Configurations", show_header=False, show_lines=False)
@@ -43,7 +50,7 @@ def print_config_summary(
     table.add_column("Value", style="magenta")
     table.add_row("Directory Path", f"{curr_dir}")
     table.add_row("Count of Images", f"{len(omr_files)}")
-    table.add_row("Set Layout Mode ", "ON" if args["setLayout"] else "OFF")
+    table.add_row("Set Layout Mode ", "ON" if OMR_CONFIG["setLayout"] else "OFF")
     table.add_row(
         "Markers Detection",
         "ON" if "CropOnMarkers" in template.pre_processors else "OFF",
@@ -65,7 +72,6 @@ def print_config_summary(
 def process_dir(
     root_dir,
     curr_dir,
-    args,
     template=None,
     tuning_config=CONFIG_DEFAULTS,
     evaluation_config=None,
@@ -86,7 +92,7 @@ def process_dir(
     # Look for subdirectories for processing
     subdirs = [d for d in curr_dir.iterdir() if d.is_dir()]
 
-    output_dir = Path(args["output_dir"], curr_dir.relative_to(root_dir))
+    output_dir = Path(OMR_CONFIG["output_dir"], curr_dir.relative_to(root_dir))
     paths = Paths(output_dir)
 
     # look for images in current dir to process
@@ -100,7 +106,7 @@ def process_dir(
             excluded_files.extend(Path(p) for p in pp.exclude_files())
 
     local_evaluation_path = curr_dir.joinpath(constants.EVALUATION_FILENAME)
-    if not args["setLayout"] and os.path.exists(local_evaluation_path):
+    if not OMR_CONFIG["setLayout"] and os.path.exists(local_evaluation_path):
         if not local_template_exists:
             logger.warning(
                 f"Found an evaluation file without a parent template file: {local_evaluation_path}"
@@ -139,9 +145,8 @@ def process_dir(
             tuning_config,
             local_config_path,
             evaluation_config,
-            args,
         )
-        if args["setLayout"]:
+        if OMR_CONFIG["setLayout"]:
             show_template_layouts(omr_files, template, tuning_config)
         else:
             process_files(
@@ -164,7 +169,6 @@ def process_dir(
         process_dir(
             root_dir,
             d,
-            args,
             template,
             tuning_config,
             evaluation_config,
@@ -183,7 +187,11 @@ def show_template_layouts(omr_files, template, tuning_config):
             in_omr, template, shifted=False, border=2
         )
         InteractionUtils.show(
-            f"Template Layout: {file_name}", template_layout, 1, 1, config=tuning_config
+            f"Template Layout: {file_name}",
+            template_layout,
+            1,
+            True,
+            config=tuning_config,
         )
 
 
@@ -279,7 +287,7 @@ def process_files(
                     final_marked, int(tuning_config.dimensions.display_height * 1.3)
                 ),
                 1,
-                1,
+                True,
                 config=tuning_config,
             )
 
