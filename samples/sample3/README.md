@@ -23,7 +23,7 @@ Below are some examples of the GSM ranges:
 
 ## Solution
 
-It is recommended to scan each types of prints into different folders and use a separate template.json layout for each of the folders. The same is presented in this sample folder.
+It is recommended to scan each types of prints into different folders and use a separate definition.json layout for each of the folders. The same is presented in this sample folder.
 
 ## References
 

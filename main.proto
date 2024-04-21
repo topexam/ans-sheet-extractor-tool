@@ -1,0 +1,36 @@
+syntax = "proto3";
+package answer_sheet_extractor;
+
+service AnswerSheetExtractorService {
+    rpc extractAnswerSheet(stream ExtractAnswerSheetRequest) returns (ExtractAnswerSheetResponse) {}
+}
+
+ 
+message Answer {
+    string question = 1;
+    repeated string options = 2;
+}
+
+message ExtractAnswerSheetRequest {
+	string test_result_id = 1;
+    repeated bytes images = 2;
+    enum ANSWER_SHEET_TEMPLATE {
+        CLASS_EXAM = 0;
+        CLASS_EXAM_SEPARATED = 1;
+        CLASS_PERIODIC = 2;
+        CLASS_PERIODIC_SEPARATED = 3;
+        SCHOOL_ENTRANCE_EXAM = 4;
+        SCHOOL_ENTRANCE_EXAM_SEPARATED = 5;  
+        UNI_ENTRANCE_EXAM = 6;  
+        UNI_ENTRANCE_EXAM_SEPARATED = 7;
+        TOEIC = 8;  
+    }
+    ANSWER_SHEET_TEMPLATE template = 3;
+    repeated Answer test_answers = 4;
+}
+
+message ExtractAnswerSheetResponse {
+	string test_result_id = 1;
+    repeated bytes images = 2;
+    repeated Answer user_answers = 3;
+}

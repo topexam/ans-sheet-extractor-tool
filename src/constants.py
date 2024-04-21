@@ -1,7 +1,7 @@
 from dotmap import DotMap
 
 # Filenames
-TEMPLATE_FILENAME = "template.json"
+TEMPLATE_FILENAME = "definition.json"
 EVALUATION_FILENAME = "evaluation.json"
 CONFIG_FILENAME = "config.json"
 

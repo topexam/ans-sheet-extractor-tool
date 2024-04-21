@@ -11,7 +11,7 @@ from src.tests.utils import (
 FROZEN_TIMESTAMP = "1970-01-01"
 CURRENT_DIR = Path("src/tests")
 BASE_SAMPLE_PATH = CURRENT_DIR.joinpath("test_samples", "sample1")
-BASE_SAMPLE_TEMPLATE_PATH = BASE_SAMPLE_PATH.joinpath("template.json")
+BASE_SAMPLE_TEMPLATE_PATH = BASE_SAMPLE_PATH.joinpath("definition.json")
 
 
 def run_sample(mocker, input_path):

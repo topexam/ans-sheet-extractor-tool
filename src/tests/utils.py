@@ -72,7 +72,7 @@ def generate_write_jsons_and_run(
         modify_evaluation=None,
     ):
         sample_template_path, sample_config_path, sample_evaluation_path = (
-            sample_path.joinpath("template.json"),
+            sample_path.joinpath("definition.json"),
             sample_path.joinpath("config.json"),
             sample_path.joinpath("evaluation.json"),
         )
