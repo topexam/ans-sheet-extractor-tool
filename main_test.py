@@ -8,4 +8,4 @@ from src.logger import logger
 
 if __name__ == "__main__":
     sys.tracebacklimit = 0
-    entry_point(Path("templates/class-exam"))
+    entry_point(Path("templates/class-exam-test"))

@@ -179,7 +179,7 @@ def show_template_layouts(omr_files, template, tuning_config):
     for file_path in omr_files:
         file_name = file_path.name
         file_path = str(file_path)
-        in_omr = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
+        in_omr = cv2.imread(file_path, cv2.IMREAD_COLOR)
         in_omr = template.image_instance_ops.apply_preprocessors(
             file_path, in_omr, template
         )
@@ -210,7 +210,7 @@ def process_files(
         files_counter += 1
         file_name = file_path.name
 
-        in_omr = cv2.imread(str(file_path), cv2.IMREAD_GRAYSCALE)
+        in_omr = cv2.imread(str(file_path), cv2.IMREAD_COLOR)
 
         logger.info("")
         logger.info(
@@ -250,6 +250,7 @@ def process_files(
             continue
 
         # uniquify
+
         file_id = str(file_name)
         save_dir = outputs_namespace.paths.save_marked_dir
         (
@@ -258,7 +259,11 @@ def process_files(
             multi_marked,
             _,
         ) = template.image_instance_ops.read_omr_response(
-            template, image=in_omr, name=file_id, save_dir=save_dir
+            template,
+            image=in_omr,
+            name=file_id,
+            evaluation_config=evaluation_config,
+            save_dir=save_dir,
         )
 
         # TODO: move inner try catch here

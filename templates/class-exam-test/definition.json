@@ -1,0 +1,141 @@
+{
+  "pageDimensions": [
+    1785,
+    2526
+  ],
+  "bubbleDimensions": [
+    30,
+    30
+  ],
+  "preProcessors": [],
+  "fieldBlocks": {
+    "rollblock": {
+      "origin": [
+        1025,
+        235
+      ],
+      "bubblesGap": 47,
+      "labelsGap": 45,
+      "bubbleDimensions": [
+        30,
+        30
+      ],
+      "fieldLabels": [
+        "r0..5"
+      ],
+      "fieldType": "QTYPE_INT"
+    },
+    "testCodeblock": {
+      "origin": [
+        1395,
+        235
+      ],
+      "bubblesGap": 47,
+      "labelsGap": 45,
+      "bubbleDimensions": [
+        30,
+        30
+      ],
+      "fieldLabels": [
+        "c0..2"
+      ],
+      "fieldType": "QTYPE_INT"
+    },
+    "q01block": {
+      "origin": [
+        425,
+        1275
+      ],
+      "bubblesGap": 60,
+      "labelsGap": 60,
+      "bubbleDimensions": [
+        36,
+        36
+      ],
+      "fieldLabels": [
+        "q1..10"
+      ],
+      "fieldType": "QTYPE_MCQ4"
+    },
+    "q11block": {
+      "origin": [
+        425,
+        1875
+      ],
+      "bubblesGap": 60,
+      "labelsGap": 60,
+      "bubbleDimensions": [
+        36,
+        36
+      ],
+      "fieldLabels": [
+        "q11..17"
+      ],
+      "fieldType": "QTYPE_MCQ4"
+    },
+    "q18block": {
+      "origin": [
+        783,
+        1275
+      ],
+      "bubblesGap": 60,
+      "labelsGap": 60,
+      "bubbleDimensions": [
+        36,
+        36
+      ],
+      "fieldLabels": [
+        "q18..27"
+      ],
+      "fieldType": "QTYPE_MCQ4"
+    },
+    "q28block": {
+      "origin": [
+        783,
+        1875
+      ],
+      "bubblesGap": 60,
+      "labelsGap": 60,
+      "bubbleDimensions": [
+        36,
+        36
+      ],
+      "fieldLabels": [
+        "q28..34"
+      ],
+      "fieldType": "QTYPE_MCQ4"
+    },
+    "q35block": {
+      "origin": [
+        1142,
+        1275
+      ],
+      "bubblesGap": 60,
+      "labelsGap": 60,
+      "bubbleDimensions": [
+        36,
+        36
+      ],
+      "fieldLabels": [
+        "q35..44"
+      ],
+      "fieldType": "QTYPE_MCQ4"
+    },
+    "q45block": {
+      "origin": [
+        1142,
+        1875
+      ],
+      "bubblesGap": 60,
+      "labelsGap": 60,
+      "bubbleDimensions": [
+        36,
+        36
+      ],
+      "fieldLabels": [
+        "q45..50"
+      ],
+      "fieldType": "QTYPE_MCQ4"
+    }
+  }
+}

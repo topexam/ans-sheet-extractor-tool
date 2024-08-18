@@ -215,6 +215,12 @@ class EvaluationConfig:
 
                 self.questions_in_order = answer_key["question"].to_list()
                 answers_in_order = answer_key["answer"].to_list()
+
+                self.qna_tuples_in_order = [
+                    (q, answers_in_order[i])
+                    for i, q in enumerate(self.questions_in_order)
+                ]
+
             elif not answer_key_image_path:
                 raise Exception(f"Answer key csv not found at '{csv_path}'")
             else:
@@ -228,7 +234,7 @@ class EvaluationConfig:
                     f"Attempting to generate answer key from image: '{image_path}'"
                 )
                 # TODO: use a common function for below changes?
-                in_omr = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+                in_omr = cv2.imread(image_path, cv2.IMREAD_COLOR)
                 in_omr = template.image_instance_ops.apply_preprocessors(
                     image_path, in_omr, template
                 )
@@ -245,6 +251,7 @@ class EvaluationConfig:
                     template,
                     image=in_omr,
                     name=image_path,
+                    evaluation_config=self,
                     save_dir=None,
                 )
                 omr_response = get_concatenated_response(response_dict, template)

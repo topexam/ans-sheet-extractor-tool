@@ -36,7 +36,9 @@ class ImageInstanceOps:
             in_omr = pre_processor.apply_filter(in_omr, file_path)
         return in_omr
 
-    def read_omr_response(self, template, image, name, save_dir=None):
+    def read_omr_response(
+        self, template, image, name, evaluation_config, save_dir=None
+    ):
         config = self.tuning_config
         auto_align = config.alignment_params.auto_align
         try:
@@ -294,9 +296,44 @@ class ImageInstanceOps:
                     # TODO: get rid of total_q_box_no
                     detected_bubbles = []
                     for bubble in field_block_bubbles:
+
                         bubble_is_marked = (
                             per_q_strip_threshold > all_q_vals[total_q_box_no]
                         )
+
+                        matchedQues = next(
+                            (
+                                x
+                                for x in evaluation_config.qna_tuples_in_order
+                                if x[0] == bubble.field_label
+                            ),
+                            None,
+                        )
+
+                        if matchedQues is not None:
+                            if (
+                                bubble.field_value == matchedQues[1]
+                                and bubble_is_marked is not True
+                            ):
+                                cv2.rectangle(
+                                    final_marked,
+                                    (
+                                        int(bubble.x + field_block.shift + box_w / 10),
+                                        int(bubble.y + box_h / 10),
+                                    ),
+                                    (
+                                        int(
+                                            bubble.x
+                                            + field_block.shift
+                                            + box_w
+                                            - box_w / 10
+                                        ),
+                                        int(bubble.y + box_h - box_h / 10),
+                                    ),
+                                    constants.CLR_RED,
+                                    -1,
+                                )
+
                         total_q_box_no += 1
                         if bubble_is_marked:
                             detected_bubbles.append(bubble)
@@ -305,37 +342,21 @@ class ImageInstanceOps:
                                 bubble.y,
                                 bubble.field_value,
                             )
-                            cv2.rectangle(
-                                final_marked,
-                                (int(x + box_w / 12), int(y + box_h / 12)),
-                                (
-                                    int(x + box_w - box_w / 12),
-                                    int(y + box_h - box_h / 12),
-                                ),
-                                constants.CLR_DARK_GRAY,
-                                3,
-                            )
 
-                            cv2.putText(
-                                final_marked,
-                                str(field_value),
-                                (x, y),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                constants.TEXT_SIZE,
-                                (20, 20, 10),
-                                int(1 + 3.5 * constants.TEXT_SIZE),
-                            )
-                        else:
-                            cv2.rectangle(
-                                final_marked,
-                                (int(x + box_w / 10), int(y + box_h / 10)),
-                                (
-                                    int(x + box_w - box_w / 10),
-                                    int(y + box_h - box_h / 10),
-                                ),
-                                constants.CLR_GRAY,
-                                -1,
-                            )
+                            if (
+                                matchedQues is not None
+                                and bubble.field_value == matchedQues[1]
+                            ):
+                                cv2.rectangle(
+                                    final_marked,
+                                    (int(x + box_w / 12), int(y + box_h / 12)),
+                                    (
+                                        int(x + box_w - box_w / 12),
+                                        int(y + box_h - box_h / 12),
+                                    ),
+                                    constants.CLR_GREEN,
+                                    -1,
+                                )
 
                     for bubble in detected_bubbles:
                         field_label, field_value = (
